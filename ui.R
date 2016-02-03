@@ -1,28 +1,33 @@
+library(shiny)
 shinyUI(
   pageWithSidebar(
     # Application title
-    headerPanel("Diabetes prediction"),
+    headerPanel("Sample Size Calculator"),
     
     sidebarPanel(
-      numericInput('glucose', 'Glucose mg/dl', 90, min = 50, max = 200, step = 5),
-      checkboxGroupInput("id2", "Checkbox",
-                         c("Value 1" = "1",
-                           "Value 2" = "2",
-                           "Value 3" = "3")),
-      dateInput("date", "Date:"),
-      sliderInput('mu', 'Guess at the mean',value = 70, min = 62, max = 74, step = 0.05)
-    ),
+      numericInput('delta', 'Enter the effect size wish to detect:', 0.5, step = 0.01),
+      numericInput('sig.level', 'Enter your chosen significance level', 0.05, step = 0.025),
+      numericInput('power', 'Enter the required power of your test', 0.8, step = 0.1),
+      radioButtons("alt", "Test type",
+                   c("one sided" = "greater",
+                     "two sided" = "two.sided"))
+      ),
     mainPanel(
-      h3('Results of prediction'),
-      h4('You entered'),
-      verbatimTextOutput("inputValue"),
-      h4('You entered'),
-      verbatimTextOutput("oid2"),
-      h4('You entered'),
-      verbatimTextOutput("odate"),
-      h4('Which resulted in a prediction of '),
-      verbatimTextOutput("prediction"),
-      plotOutput('newHist')
+      h3('Suggested Sample Size of Experiment Group'),
+      h4('Your effect size:'),
+      verbatimTextOutput("delta"),
+      h4('Your significance level:'),
+      verbatimTextOutput("sig.level"),
+      h4('Your required power:'),
+      verbatimTextOutput("power"),
+      h4('Your test type:'),
+      verbatimTextOutput("alt"),
+      h4('Your requirements indicate the following sample size is required (rounded up):'),
+      verbatimTextOutput("n"),
+      h4('Notes about your sample size n:'),
+      verbatimTextOutput("note"),
+      
+      plotOutput('dens')
     )
   )
 )

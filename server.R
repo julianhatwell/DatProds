@@ -1,20 +1,32 @@
-diabetesRisk <- function(glucose) glucose / 200
+library(shiny)
+library(pwr)
+
+
 library(UsingR)
 shinyServer(
   function(input, output) {
-    output$inputValue <- renderPrint({input$glucose})
-    output$prediction <- renderPrint({diabetesRisk(input$glucose)})
+    output$delta <- renderPrint({input$delta})
+    output$sig.level <- renderPrint({input$sig.level})
+    output$power <- renderPrint({input$power})
+    output$alt <- renderPrint({ifelse(input$alt == "greater"
+                                      , "one.sided"
+                                      , input$alt)})
     
-    output$oid2 <- renderPrint({input$id2})
-    output$odate <- renderPrint({input$date})
+    ptt <- reactive({pwr.t.test(d = input$delta
+                      , sig.level = input$sig.level
+                      , power = input$power
+                      , alternative = input$alt)
+      })
+    output$n <- renderPrint({ceiling(ptt()$n)})
+    output$note <- renderPrint({ptt()$note})
     
-    output$newHist <- renderPlot({
-      hist(galton$child, xlab='child height', col='lightblue',main='Histogram')
-      mu <- input$mu
-      lines(c(mu, mu), c(0, 200),col="red",lwd=5)
-      mse <- mean((galton$child - mu)^2)
-      text(63, 150, paste("mu = ", mu))
-      text(63, 140, paste("MSE = ", round(mse, 2)))
+    rng0 <- c(-5, 5)
+    x0 <- seq(rng0[1], rng0[2], 0.1)
+    y0 <- dnorm(x0)
+    rngA <- reactive({rng0 + input$delta})
+    
+    output$dens <- renderPlot({
+      plot(x0, y0, xlab='sample', type = "l", col='lightblue',main='density')
     })
     
     }
