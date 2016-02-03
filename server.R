@@ -17,17 +17,36 @@ shinyServer(
                       , power = input$power
                       , alternative = input$alt)
       })
-    output$n <- renderPrint({ceiling(ptt()$n)})
-    output$note <- renderPrint({ptt()$note})
     
-    rng0 <- c(-5, 5)
-    x0 <- seq(rng0[1], rng0[2], 0.1)
-    y0 <- dnorm(x0)
-    rngA <- reactive({rng0 + input$delta})
+    n <- reactive({ptt()$n})
+    st.err <- reactive({input$delta / qt(1 - input$sig.level, n()-1)})
+    
+    output$n <- renderPrint({ceiling(n())})
+    
+    x <- seq(-1, 2, length.out = 1000)
     
     output$dens <- renderPlot({
-      plot(x0, y0, xlab='sample', type = "l", col='lightblue',main='density')
-    })
+
+      plot(x
+          , dnorm(x, sd = st.err())
+          , type = "l"
+          , col = "light blue"
+          , xlab = "sample means"
+          , ylab = "density")
+      abline(v = 0
+             , lwd = 2
+             , col = "light blue")
+      abline(v = st.err() * qt(1 - input$sig.level, n()-1)
+             , lwd = 2
+             , col = "black")
+      points(x + input$delta + st.err() * qt(input$power, n()-1)
+              , dnorm(x, sd = st.err())
+              , type = "l"
+              , col = "pink")
+      abline(v = input$delta + st.err() * qt(input$power, n()-1)
+             , lwd = 2
+             , col = "pink")
+      })
     
     }
-)
+  )

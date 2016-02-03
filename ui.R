@@ -14,19 +14,16 @@ shinyUI(
       ),
     mainPanel(
       h3('Suggested Sample Size of Experiment Group'),
-      h4('Your effect size:'),
-      verbatimTextOutput("delta"),
-      h4('Your significance level:'),
-      verbatimTextOutput("sig.level"),
-      h4('Your required power:'),
-      verbatimTextOutput("power"),
-      h4('Your test type:'),
-      verbatimTextOutput("alt"),
+#       h4('Your effect size:'),
+#       verbatimTextOutput("delta"),
+#       h4('Your significance level:'),
+#       verbatimTextOutput("sig.level"),
+#       h4('Your required power:'),
+#       verbatimTextOutput("power"),
+#       h4('Your test type:'),
       h4('Your requirements indicate the following sample size is required (rounded up):'),
       verbatimTextOutput("n"),
-      h4('Notes about your sample size n:'),
-      verbatimTextOutput("note"),
-      
+
       plotOutput('dens')
     )
   )
