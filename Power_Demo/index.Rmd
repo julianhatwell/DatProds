@@ -11,13 +11,15 @@ mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
 
-## Motivation - General
+## Motivation
+
+#### General
 
 Sample size has a dramatic effect on an experiment's sensitivity to the effect size being measured. A researcher may need to detect a specific effect size that might be rather small. Therefore a quick and easy way to calculate a sample size that will validate the experiment's results is called for.
 
 An alternative case is that many experiments come with associated costs and researchers are often keen to optimise the minimum acceptable sample size to run to ensure a valid and worthwhile experiment at the lowest cost.
 
-## Motivation - Personal
+#### Personal
 
 During my statistics class, the concept that I really struggled with was Power. I was looking for an opportunity to revise and review. I wanted to see if I could get a better grasp of this topic. I thought other learners might have faced the same challenges. I decided to create this tool to visualise Power and how it is used to select sample sizes for experiments.
 
@@ -25,54 +27,52 @@ During my statistics class, the concept that I really struggled with was Power. 
 
 ## Theory
 
-$\alpha$ is the Type I error rate. In plain English, this type of error happens when our experiment gives an unexpectedly large or small result that appears to be significant but it's actually caused by an unlikely combination of random samples.
+The significance level $\alpha$ chosen for an experiment determines the how far from the Null the observed mean of the experiment's result needs to be in order to reject the Null hypothesis. If $\alpha$ is set to 0.05, we can reject the Null for values at $1-\alpha$ or the 95th percentile in standard deviation units (for a one sided test).
 
-The significance level is defined as $1-\alpha$. If we set $\alpha$ to 0.05 then we reject the Null hypothesis if we observe a result that is as far or further from the Null as the 95th percentile in standard deviation units (for a one sided test).
+However, with only this information, we can't say anything specific about the extent of the difference of our observed mean from the Null. The difference of our observed mean from the Null (in standard deviation units) is known as the effect size.
 
-Such a result tells us that the difference between the observed mean and the Null is statistically significant.
-
-However, with only this information, we can't say anything specific about the extent of the difference of our observed mean from the Null.
-
-The difference of our observed mean from the Null (in standard deviation units) is known as the effect size.
+Power is useful in giving confidence a specific effect size and so depends on us providing a specific value to the alternative hypothesis mean.
 
 ---
 
 ## Theory 2
 
-Power is useful in giving confidence about the effect size.
+To give our experiment a Power of 0.8, we need to see a result that is as greater (or less, depending on the sign of the difference) than the 20th percentile. Such a result could be expected four out of every five times the experiment is repeated (80% of the time) - if our alternative hypothesis is true. 
 
-$\beta$ is the Type II error rate. In plain English, this type of error happens when our experiment gives a result that falls within the interval determined by our $\alpha$. Even though the true mean of our effect is significantly larger or smaller than the Null, the observed result was caused by an unlikely combination of random samples.
-
-Power is defined as $1-\beta$ and depends on giving a specific value to expected mean in the alternative hypothesis, and thus the effect size.
-
-With a $\beta$ of 0.2, we expect to see a result that is as close or closer to the alternative mean as the 20th percentile four out of every five times the experiment is repeated (80% of the time). Of course our result must also be  further from the Null than the 95th percentile. This is a pre-requisite for us to reject the Null hypothesis.
-
----
-
-## Theory 3
+Of course our result must also be further from the Null than the 95th percentile. This is a pre-requisite for us to reject the Null hypothesis.
 
 Power is affected by changes to a number of parameters:
 
-The signifance level $1-\alpha$
+* The signifance level $1-\alpha$
+* The effect size $\frac{\mu_0 - \mu_a}{\sigma}$
+* The sample size $n$ 
 
-The effect size $\frac{\mu_0 - \mu_a}{\sigma}$
-
-The sample size $n$ 
-
-Because $n$ is a component of the standard error calculation it has a dramatic effect on Power:
-
-$$\frac{\sigma}{\sqrt{n}}$$
-
-Conceptually this determines the width of the intervals around the means $\mu_0$ and $\mu_a$ and therefore the limits what is a measurable effect size.
+Because $n$ is a component of the standard error calculation $\frac{\sigma}{\sqrt{n}}$ it has a dramatic effect on Power. Conceptually this determines the width of the intervals around the means $\mu_0$ and $\mu_a$ and therefore the limits what is a measurable effect size.
 
 ---
 
 ## The Sample Size Calculator Shiny App
 
-The shiny app ... focusses on the most common use of Power, which is to determine how large a sample size needs to be for an experiment to be useful in detecting a specific effect size.
+The shiny app ... 
 
-The app provides options to enter all the necessary input parameters and returns a result showing what sample size is required and what critical value can be used to detect the required effect size.
+* focusses on the most common use of Power - to determine how large a sample size needs to be for an experiment to be useful in detecting a specific effect size.
 
-There is also a graphic to help visualise what is happening in the calculation so students and learners can better understand the concept.
+* provides options to enter all the necessary input parameters
+
+* returns a result showing what sample size is required and what critical value can be used to detect the required effect size.
+
+* shows a graphic to help visualise what is happening in the calculation so students and learners can better understand the concept.
+
+---
+
+## The Sample Size Calculator Shiny App 2
+
+Behind the scenes it's running the pwr package, for example:
+
+```{r}
+library(pwr)
+inDelta <- 0.5; inSig.level <- 0.05; inPower <- 0.8; inAlt <- "greater"
+pwr.t.test(d = inDelta, sig = inSig.level, p = inPower, alt = inAlt)$n # return the sample size
+```
 
 ---
