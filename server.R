@@ -19,11 +19,19 @@ shinyServer(
       })
     
     n <- reactive({ptt()$n/2})
-    dfs <- reactive({ptt()$n - 1})
+    dfs <- reactive({n()}-2)
     st.err <- reactive({1/sqrt(n())})
+    sig <- reactive({ifelse(input$alt == "greater"
+                            , input$sig.level
+                            , input$sig.level/2)})
     
     output$n <- renderPrint({ceiling(n())})
-    output$crit <- renderPrint({round(st.err() * qt(1 - input$sig.level, dfs()), 4)})
+    output$crit <- renderPrint({trimws(paste("Reject the Null hypothesis and accept alternative for values >"
+                                      , round(st.err() * qt(1 - sig(), dfs()), 4)
+                                      , if (input$alt == "two.sided") {
+                                          paste("or <", round( - st.err() * qt(1 - sig(), dfs()), 4), "for a two sided test")
+                                        }
+                                      ))})
     
     x <- seq(-1, 1, length.out = 1000)
     
@@ -32,19 +40,25 @@ shinyServer(
       plot(x
           , dnorm(x, sd = st.err())
           , type = "l"
-          , col = "light blue"
+          , col = "blue"
           , xlab = "sample means"
-          , ylab = "density")
-      abline(v = st.err() * qt(1 - input$sig.level, dfs())
-             , lwd = 2
-             , col = "light blue")
+          , ylab = ""
+          , yaxt = "n")
+      abline(v = st.err() * qnorm(1 - sig())
+             , lwd = 3
+             , col = "magenta")
       points(x + input$delta
              , dnorm(x, sd = st.err())
              , type = "l"
-             , col = "pink")      
-      abline(v = input$delta - st.err() * qt(1 - input$power, dfs()
-                                                  , lower.tail = FALSE)
-             , lwd = 3
-             , col = "pink")
+             , col = "purple")      
+      if (input$alt == "two.sided") {
+        points(x - input$delta
+               , dnorm(x, sd = st.err())
+               , type = "l"
+               , col = "purple")
+        abline(v = - st.err() * qnorm(1 - sig())
+               , lwd = 3
+               , col = "magenta")
+      }
       })
     })

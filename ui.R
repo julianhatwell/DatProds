@@ -14,9 +14,9 @@ shinyUI(
       ),
     mainPanel(
       h3('Suggested Sample Size of Experiment Group'),
-      h4('Your requirements indicate the following sample size is required (rounded up):'),
+      h4('The following sample size is needed in each group (rounded up):'),
       verbatimTextOutput("n"),
-      h4('You can reject the Null hypothesis for values greater than the t-critical quantile:'),
+      h4('Other notes:'),
       verbatimTextOutput("crit"),
       
       plotOutput('dens')
