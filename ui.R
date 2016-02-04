@@ -16,7 +16,7 @@ shinyUI(
       h3('Suggested Sample Size of Experiment Group'),
       h4('The following sample size is needed in each group (rounded up):'),
       verbatimTextOutput("n"),
-      h4('Other notes:'),
+      h4('Z statistic'),
       verbatimTextOutput("crit"),
       
       plotOutput('dens')

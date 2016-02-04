@@ -11,23 +11,19 @@ mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
 
-## Motivation
+## Motivation - General
 
-During my statistics class, the concept that I really struggled with was Power.
+Sample size has a dramatic effect on an experiment's sensitivity to the effect size being measured. A researcher may need to detect a specific effect size that might be rather small. Therefore a quick and easy way to calculate a sample size that will validate the experiment's results is called for.
 
-I was looking for an opportunity to revise and review.
+An alternative case is that many experiments come with associated costs and researchers are often keen to optimise the minimum acceptable sample size to run to ensure a valid and worthwhile experiment at the lowest cost.
 
-I wanted to see if I could get a better grasp of this topic.
+## Motivation - Personal
 
-I thought other learners might have faced the same challenges
-
-I decided to create this tool to visualise Power and how it is used to select sample sizes for experiments.
+During my statistics class, the concept that I really struggled with was Power. I was looking for an opportunity to revise and review. I wanted to see if I could get a better grasp of this topic. I thought other learners might have faced the same challenges. I decided to create this tool to visualise Power and how it is used to select sample sizes for experiments.
 
 ---
 
 ## Theory
-
-To create this app, I had to brush up on the theory. Here's what I re-discovered about Power:
 
 $\alpha$ is the Type I error rate. In plain English, this type of error happens when our experiment gives an unexpectedly large or small result that appears to be significant but it's actually caused by an unlikely combination of random samples.
 
@@ -35,7 +31,9 @@ The significance level is defined as $1-\alpha$. If we set $\alpha$ to 0.05 then
 
 Such a result tells us that the difference between the observed mean and the Null is statistically significant.
 
-However, with only this information, we can't say anything specific about the extent of the difference. The difference is known as the effect size.
+However, with only this information, we can't say anything specific about the extent of the difference of our observed mean from the Null.
+
+The difference of our observed mean from the Null (in standard deviation units) is known as the effect size.
 
 ---
 
@@ -47,9 +45,7 @@ $\beta$ is the Type II error rate. In plain English, this type of error happens 
 
 Power is defined as $1-\beta$ and depends on giving a specific value to expected mean in the alternative hypothesis, and thus the effect size.
 
-With a $\beta$ of 0.2, if we observe a result that is as close or closer to the alternative mean as the 20th percentile (at the same time as it is further from the Null than the 95th percentile about the Null), such a result tells us that our alternative hypothesis, with a specified value of the alternative mean, is indeed a reasonable one.
-
-We can say that if the alternative hypothesis is true and we repeated the experiment, such a result could be observed four out of every five times. 
+With a $\beta$ of 0.2, we expect to see a result that is as close or closer to the alternative mean as the 20th percentile four out of every five times the experiment is repeated (80% of the time). Of course our result must also be  further from the Null than the 95th percentile. This is a pre-requisite for us to reject the Null hypothesis.
 
 ---
 
@@ -67,15 +63,13 @@ Because $n$ is a component of the standard error calculation it has a dramatic e
 
 $$\frac{\sigma}{\sqrt{n}}$$
 
-Conceptually this determines the width of the intervals around the means $\mu_0$ and $\mu_a$ and therefore the limits of a measurable effect size.
+Conceptually this determines the width of the intervals around the means $\mu_0$ and $\mu_a$ and therefore the limits what is a measurable effect size.
 
 ---
 
 ## The Sample Size Calculator Shiny App
 
 The shiny app ... focusses on the most common use of Power, which is to determine how large a sample size needs to be for an experiment to be useful in detecting a specific effect size.
-
-Many experiments come with associated costs and researchers are often keen to optimise the minimum acceptable sample size to run. Alternatively, a researcher may need to detect a specific effect size that might be rather small, and will have to justify the validity of their results in peer reviews.
 
 The app provides options to enter all the necessary input parameters and returns a result showing what sample size is required and what critical value can be used to detect the required effect size.
 

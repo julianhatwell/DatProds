@@ -37,14 +37,14 @@ shinyServer(
     
     output$dens <- renderPlot({
       x_null_reject <- x[x > st.err() * qnorm(1 - sig())]
-      x_alt_accept <- x[x + input$delta > st.err() * qnorm(1 - input$power)] +input$delta
+      x_alt_beta <- x[x < st.err() * qnorm(1 - input$power)] + input$delta
       plot(x
           , dnorm(x, sd = st.err())
           , type = "n"
           , ylab = ""
           , yaxt = "n")
-      polygon(c(x_alt_accept[1],x_alt_accept)
-              , c(0, dnorm(x_alt_accept, mean = input$delta, sd = st.err()))
+      polygon(c(x_alt_beta[length(x_alt_beta)],x_alt_beta)
+              , c(0, dnorm(x_alt_beta, mean = input$delta, sd = st.err()))
               , col = "pink"
               , border = "transparent") 
       polygon(c(x_null_reject[1],x_null_reject)
@@ -63,6 +63,23 @@ shinyServer(
       abline(v = st.err() * qnorm(1 - sig())
              , lwd = 3
              , col = "magenta")
+      abline(v = 0
+             , lwd = 1
+             , lty = 2
+             , col = "blue")
+      abline(v = input$delta
+             , lwd = 1
+             , lty = 2
+             , col = "purple")
+      legend("topleft", legend = c(expression(mu[0])
+                                   , expression(mu[a])
+                                   , "Z-statistic"
+                                   , "rejection region"
+                                   , "beta")
+             , lty = c(2, 2, 1, 1, 1)
+             , lwd = c(1, 1, 3, 5, 5)
+             , col = c("blue", "purple", "magenta", "light blue", "pink")
+             , bty = "n")
       if (input$alt == "two.sided") {
         points(x - input$delta
                , dnorm(x, sd = st.err())
