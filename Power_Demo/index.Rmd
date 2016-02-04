@@ -41,7 +41,7 @@ The difference of our observed mean from the Null (in standard deviation units) 
 
 Power is useful in giving confidence about the effect size.
 
-$\beta$ is the Type II error rate. In plain English, this type of error happens when our experiment gives a result that falls within the interval determined by our $\alpha$ even though the true mean of our effect is significantly larger or smaller than the Null and the observed result was caused by an unlikely combination of random samples.
+$\beta$ is the Type II error rate. In plain English, this type of error happens when our experiment gives a result that falls within the interval determined by our $\alpha$. Even though the true mean of our effect is significantly larger or smaller than the Null, the observed result was caused by an unlikely combination of random samples.
 
 Power is defined as $1-\beta$ and depends on giving a specific value to expected mean in the alternative hypothesis, and thus the effect size.
 
