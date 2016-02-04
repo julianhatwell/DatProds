@@ -1,0 +1,84 @@
+---
+title       : Sample Size Calculator
+subtitle    : A demonstration of statistical power in hypothesis testing
+author      : Julian Hatwell
+job         : Analyst
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Motivation
+
+During my statistics class, the concept that I really struggled with was Power.
+
+I was looking for an opportunity to revise and review.
+
+I wanted to see if I could get a better grasp of this topic.
+
+I thought other learners might have faced the same challenges
+
+I decided to create this tool to visualise Power and how it is used to select sample sizes for experiments.
+
+---
+
+## Theory
+
+To create this app, I had to brush up on the theory. Here's what I re-discovered about Power:
+
+$\alpha$ is the Type I error rate. In plain English, this type of error happens when our experiment gives an unexpectedly large or small result that appears to be significant but it's actually caused by an unlikely combination of random samples.
+
+The significance level is defined as $1-\alpha$. If we set $\alpha$ to 0.05 then we reject the Null hypothesis if we observe a result that is as far or further from the Null as the 95th percentile in standard deviation units (for a one sided test).
+
+Such a result tells us that the difference between the observed mean and the Null is statistically significant.
+
+However, with only this information, we can't say anything specific about the extent of the difference. The difference is known as the effect size.
+
+---
+
+## Theory 2
+
+Power is useful in giving confidence about the effect size.
+
+$\beta$ is the Type II error rate. In plain English, this type of error happens when our experiment gives a result that falls within the interval determined by our $\alpha$ even though the true mean of our effect is significantly larger or smaller than the Null and the observed result was caused by an unlikely combination of random samples.
+
+Power is defined as $1-\beta$ and depends on giving a specific value to expected mean in the alternative hypothesis, and thus the effect size.
+
+With a $\beta$ of 0.2, if we observe a result that is as close or closer to the alternative mean as the 20th percentile (at the same time as it is further from the Null than the 95th percentile about the Null), such a result tells us that our alternative hypothesis, with a specified value of the alternative mean, is indeed a reasonable one.
+
+We can say that if the alternative hypothesis is true and we repeated the experiment, such a result could be observed four out of every five times. 
+
+---
+
+## Theory 3
+
+Power is affected by changes to a number of parameters:
+
+The signifance level $1-\alpha$
+
+The effect size $\frac{\mu_0 - \mu_a}{\sigma}$
+
+The sample size $n$ 
+
+Because $n$ is a component of the standard error calculation it has a dramatic effect on Power:
+
+$$\frac{\sigma}{\sqrt{n}}$$
+
+Conceptually this determines the width of the intervals around the means $\mu_0$ and $\mu_a$ and therefore the limits of a measurable effect size.
+
+---
+
+## The Sample Size Calculator Shiny App
+
+The shiny app ... focusses on the most common use of Power, which is to determine how large a sample size needs to be for an experiment to be useful in detecting a specific effect size.
+
+Many experiments come with associated costs and researchers are often keen to optimise the minimum acceptable sample size to run. Alternatively, a researcher may need to detect a specific effect size that might be rather small, and will have to justify the validity of their results in peer reviews.
+
+The app provides options to enter all the necessary input parameters and returns a result showing what sample size is required and what critical value can be used to detect the required effect size.
+
+There is also a graphic to help visualise what is happening in the calculation so students and learners can better understand the concept.
+
+---
