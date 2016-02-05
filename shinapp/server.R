@@ -42,7 +42,8 @@ shinyServer(
           , dnorm(x, sd = st.err())
           , type = "n"
           , ylab = ""
-          , yaxt = "n")
+          , yaxt = "n"
+          , xlab = "Effect Size (standard deviation units)")
       polygon(c(x_alt_beta[length(x_alt_beta)],x_alt_beta)
               , c(0, dnorm(x_alt_beta, mean = input$delta, sd = st.err()))
               , col = "pink"
@@ -54,8 +55,7 @@ shinyServer(
       points(x
           , dnorm(x, sd = st.err())
           , type = "l"
-          , col = "blue"
-          , xlab = "sample means")
+          , col = "blue")
       points(x + input$delta
              , dnorm(x, sd = st.err())
              , type = "l"
@@ -75,7 +75,7 @@ shinyServer(
                                    , expression(mu[a])
                                    , "Z-statistic"
                                    , "rejection region"
-                                   , "beta")
+                                   , "Type II Error region")
              , lty = c(2, 2, 1, 1, 1)
              , lwd = c(1, 1, 3, 5, 5)
              , col = c("blue", "purple", "magenta", "light blue", "pink")
