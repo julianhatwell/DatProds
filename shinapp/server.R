@@ -77,7 +77,7 @@ shinyServer(
                                    , "rejection region"
                                    , "Type II Error region")
              , lty = c(2, 2, 1, 1, 1)
-             , lwd = c(1, 1, 3, 5, 5)
+             , lwd = c(1, 1, 3, 10, 10)
              , col = c("blue", "purple", "magenta", "light blue", "pink")
              , bty = "n")
       if (input$alt == "two.sided") {

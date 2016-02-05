@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sample Size Calculator</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Sample Size Calculator">
+  <meta name="author" content="Julian Hatwell">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/js/slides" 
+    src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Sample Size Calculator</h1>
+    <h2>A demonstration of statistical power in hypothesis testing</h2>
+    <p>Julian Hatwell<br/>Analyst</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="">
+  <hgroup>
+    <h3 class="muted" style="font-family:Tahoma;">Motivation</h3>
+  </hgroup>
+  <article>
+    <hr noshade size=4 color='red'>  
+    <h4>General</h4>
+
+<p>Sample size has a dramatic effect on an experiment&#39;s sensitivity to the effect size being measured. A researcher may need to detect a specific effect size that might be rather small. Therefore a quick and easy way to calculate a sample size that will validate the experiment&#39;s results is called for.</p>
+
+<p>An alternative case is that many experiments come with associated costs and researchers are often keen to optimise the minimum acceptable sample size to run to ensure a valid and worthwhile experiment at the lowest cost.</p>
+
+<h4>Personal</h4>
+
+<p>During my statistics class, the concept that I really struggled with was Power. I was looking for an opportunity to revise and review. I wanted to see if I could get a better grasp of this topic. I thought other learners might have faced the same challenges. I decided to create this tool to visualise Power and how it is used to select sample sizes for experiments.</p>
+  
+  </article>
+</slide>
+<slide class="">
+  <hgroup>
+    <h3 class="muted" style="font-family:Tahoma;">Theory</h3>
+  </hgroup>
+  <article>
+    <hr noshade size=4 color='red'>  
+    <p>The significance level e.g. 0.05, is used to reject the Null in a hypothesis test. Test statistics at \(1-\alpha\) (the 95th percentile for a one sided test) are considered far enough from \(\mu_0\).</p>
+
+<p>However, this doesn&#39;t say anything specific about the extent of the difference of our observed mean from the Null. </p>
+
+<p>Power is useful in giving confidence that our observed result supports a specified value of \(\mu_a\) as the true mean. </p>
+
+<p>Assuming we are also able to reject the Null hypothesis, we satisfy a Power of e.g. 0.8 if our result that is greater than the 20th percentile around \(\mu_a\) </p>
+
+<p>Such a result could be expected four out of every five times the experiment is repeated (80% of the time) if our alternative hypothesis is true. </p>
+  
+  </article>
+</slide>
+<slide class="">
+  <hgroup>
+    <h3 class="muted" style="font-family:Tahoma;">The Sample Size Calculator Shiny App</h3>
+  </hgroup>
+  <article>
+    <hr noshade size=4 color='red'>  
+    <p>The app can be found <a href="https://julianhatwell.shinyapps.io/SampleSizeCalculator/">here</a>. It implements the following features:</p>
+
+<ul>
+<li><p>focus on the most common use of Power - to determine how large a sample size needs to be for an experiment to be able to detect a specified effect size.</p></li>
+<li><p>provides options to enter all the necessary input parameters</p></li>
+<li><p>returns a result showing what sample size is required </p></li>
+<li><p>also returns \(Z_{crit}\) the critical Z-statistic required to reject the Null and accept the alternative hypothesis</p></li>
+<li><p>shows a dynamic graphic to help visualise the calculation so students and learners can better understand the concept</p></li>
+</ul>
+  
+  </article>
+</slide>
+<slide class="">
+  <hgroup>
+    <h3 class="muted" style="font-family:Tahoma;">The Sample Size Calculator Shiny App 2</h3>
+  </hgroup>
+  <article>
+    <hr noshade size=4 color='red'>  
+    <p>Behind the scenes it&#39;s running the pwr package, for example:</p>
+
+<pre><code class="r">library(pwr); inDelta &lt;- 0.5; inSig.level &lt;- 0.05; inPower &lt;- 0.8; inAlt &lt;- &quot;greater&quot;
+# return the sample size for each group, then plot (plot code echo = FALSE)
+(n &lt;- pwr.t.test(d = inDelta, sig = inSig.level, p = inPower, alt = inAlt)$n/2)
+</code></pre>
+
+<pre><code>## [1] 25.0754
+</code></pre>
+
+<p><img src="data:image/png;base64,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" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" /></p>
+  
+  </article>
+</slide>
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Motivation'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Theory'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The Sample Size Calculator Shiny App'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='The Sample Size Calculator Shiny App 2'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

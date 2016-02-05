@@ -59,61 +59,15 @@ The app can be found [here](https://julianhatwell.shinyapps.io/SampleSizeCalcula
 
 Behind the scenes it's running the pwr package, for example:
 
-```{r}
+
+```r
 library(pwr); inDelta <- 0.5; inSig.level <- 0.05; inPower <- 0.8; inAlt <- "greater"
 # return the sample size for each group, then plot (plot code echo = FALSE)
 (n <- pwr.t.test(d = inDelta, sig = inSig.level, p = inPower, alt = inAlt)$n/2)
 ```
 
-```{r, echo=FALSE, fig.align='center', fig.height=4, fig.width=8}
-st.err <- 1/sqrt(n)
-x <- seq(-1, 1, length.out = 1000)
-x_null_reject <- x[x > st.err * qnorm(1 - inSig.level)]
-x_alt_beta <- x[x < st.err * qnorm(1 - inPower)] + inDelta
-
-par(mar = c(4, 4, .1, .1))
-plot(x
-          , dnorm(x, sd = st.err)
-          , type = "n"
-          , ylab = ""
-          , yaxt = "n"
-          , xlab = "Effect Size (standard deviation units)")
-polygon(c(x_alt_beta[length(x_alt_beta)],x_alt_beta)
-          , c(0, dnorm(x_alt_beta, mean = inDelta, sd = st.err))
-          , col = "pink"
-          , border = "transparent")
-polygon(c(x_null_reject[1],x_null_reject)
-          , c(0, dnorm(x_null_reject, sd = st.err))
-          , col = "light blue"
-          , border = "transparent")
-points(x
-          , dnorm(x, sd = st.err)
-          , type = "l"
-          , col = "blue")
-points(x + inDelta
-          , dnorm(x, sd = st.err)
-          , type = "l"
-          , col = "purple")
-abline(v = st.err * qnorm(1 - inSig.level)
-          , lwd = 3
-          , col = "magenta")
-abline(v = 0
-          , lwd = 1
-          , lty = 2
-          , col = "blue")
-abline(v = inDelta
-          , lwd = 1
-          , lty = 2
-          , col = "purple")
-legend("topleft"
-       , legend = c(expression(mu[0])
-          , expression(mu[a])
-          , "Z-statistic"
-          , "rejection region"
-          , "Type II Error region")
-       , lty = c(2, 2, 1, 1, 1)
-       , lwd = c(1, 1, 3, 10, 10)
-       , col = c("blue", "purple", "magenta", "light blue", "pink")
-       , bty = "n")
-
 ```
+## [1] 25.0754
+```
+
+<img src="assets/fig/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
